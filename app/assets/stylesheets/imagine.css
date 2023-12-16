@@ -1,0 +1,14 @@
+#app {
+  height: 100vh;
+}
+
+.imagine-container {
+  height: 100%;
+}
+
+.imagine-form {
+  width: 100%;
+}
+.imagine-input {
+  width: 80%;
+}
