@@ -36552,10 +36552,14 @@
   var import_react = __toESM(require_react());
   function ImagineBar() {
     const [text, setText] = (0, import_react.useState)("");
+    const [isLoading, setIsLoading] = (0, import_react.useState)(false);
+    const [pages, setPages] = (0, import_react.useState)([]);
+    const [prompts, setPromps] = (0, import_react.useState)([]);
     const handleTextChange = (e) => {
       setText(e.target.value);
     };
     async function getBook(text2) {
+      setIsLoading(true);
       const response = await fetch(`${"http://127.0.0.1:3000"}/api/v1/books`, {
         method: "POST",
         headers: {
@@ -36566,34 +36570,127 @@
         })
       });
       const data = await response.json();
+      setIsLoading(false);
       return data;
     }
     const handleSubmit = (e) => {
       e.preventDefault();
       getBook(text).then((data) => {
-        console.log(data);
+        console.log(data.data.images);
+        setPages(data.data.images);
+        setPromps(data.data.prompts);
       });
       console.log(text);
     };
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "d-flex justify-content-center imagine-container" }, /* @__PURE__ */ import_react.default.createElement(
-      "form",
-      {
-        className: "imagine-form mb-3 d-flex justify-content-center align-items-center flex-column",
-        onSubmit: handleSubmit
-      },
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "p-2" }, "Make me a coloring book about..."),
-      /* @__PURE__ */ import_react.default.createElement("div", { className: "input-group  imagine-input" }, /* @__PURE__ */ import_react.default.createElement(
-        "input",
+    if (isLoading) {
+      return /* @__PURE__ */ import_react.default.createElement("div", { className: "d-flex justify-content-center align-items-center imagine-container" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "spinner-border text-primary", role: "status" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "visually-hidden" }, "Loading...")));
+    }
+    if (pages && pages.length === 0) {
+      return /* @__PURE__ */ import_react.default.createElement("div", { className: "d-flex justify-content-center imagine-container" }, /* @__PURE__ */ import_react.default.createElement(
+        "form",
         {
-          className: "p-2 form-control",
-          type: "text",
-          placeholder: "",
-          value: text,
-          onChange: handleTextChange,
-          required: true
-        }
-      ), /* @__PURE__ */ import_react.default.createElement("button", { className: "btn btn-primary", type: "submit", id: "button-addon2" }, "Create"))
-    ));
+          className: "imagine-form mb-3 d-flex justify-content-center align-items-center flex-column",
+          onSubmit: handleSubmit
+        },
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "p-2" }, "Make me a coloring book about..."),
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "input-group  imagine-input" }, /* @__PURE__ */ import_react.default.createElement(
+          "input",
+          {
+            className: "p-2 form-control",
+            type: "text",
+            placeholder: "",
+            value: text,
+            onChange: handleTextChange,
+            required: true
+          }
+        ), /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: "btn btn-primary",
+            type: "submit",
+            id: "button-addon2"
+          },
+          "Create"
+        ))
+      ));
+    }
+    if (pages && pages.length > 0) {
+      return /* @__PURE__ */ import_react.default.createElement("div", { className: "d-flex justify-content-center align-items-center imagine-container" }, /* @__PURE__ */ import_react.default.createElement(
+        "div",
+        {
+          id: "carouselExampleControls",
+          className: "carousel slide",
+          "data-bs-ride": "carousel"
+        },
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-indicators" }, pages.map((page, i) => {
+          return /* @__PURE__ */ import_react.default.createElement(
+            "button",
+            {
+              key: i,
+              type: "button",
+              "data-bs-target": "#carouselExampleIndicators",
+              "data-bs-slide-to": i,
+              class: "active",
+              "aria-current": "true",
+              "aria-label": `Slide ${i + 1}`
+            }
+          );
+        }), /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            type: "button",
+            "data-bs-target": "#carouselExampleIndicators",
+            "data-bs-slide-to": "1",
+            "aria-label": "Slide 2"
+          }
+        ), /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            type: "button",
+            "data-bs-target": "#carouselExampleIndicators",
+            "data-bs-slide-to": "2",
+            "aria-label": "Slide 3"
+          }
+        )),
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-inner" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-item active" }, /* @__PURE__ */ import_react.default.createElement("img", { src: pages[0], className: "d-block w-100", alt: prompts[0] })), pages.map((page, i) => {
+          return /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-item active", key: i }, /* @__PURE__ */ import_react.default.createElement("img", { className: "d-block w-100", src: page, alt: prompts[i] }));
+        })),
+        /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: "carousel-control-prev btn-primary",
+            type: "button",
+            "data-bs-target": "#carouselExampleControls",
+            "data-bs-slide": "prev"
+          },
+          /* @__PURE__ */ import_react.default.createElement(
+            "span",
+            {
+              className: "carousel-control-prev-icon",
+              "aria-hidden": "true"
+            }
+          ),
+          /* @__PURE__ */ import_react.default.createElement("span", { className: "visually-hidden" }, "Previous")
+        ),
+        /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: "carousel-control-next btn-primary",
+            type: "button",
+            "data-bs-target": "#carouselExampleControls",
+            "data-bs-slide": "next"
+          },
+          /* @__PURE__ */ import_react.default.createElement(
+            "span",
+            {
+              className: "carousel-control-next-icon",
+              "aria-hidden": "true"
+            }
+          ),
+          /* @__PURE__ */ import_react.default.createElement("span", { className: "visually-hidden" }, "Next")
+        )
+      ));
+    }
   }
 
   // app/javascript/src/components/App.jsx
