@@ -62,3 +62,4 @@ yarn-debug.log*
 /public/uploads
 
 .DS_STORE
+app/assets/builds/*
