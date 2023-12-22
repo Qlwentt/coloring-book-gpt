@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   return (
@@ -21,8 +22,23 @@ export default function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/logout">
+              <NavLink
+                to="/books"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Books
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/logout">
                 Logout
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/logout">
+                Contact
               </a>
             </li>
           </ul>
