@@ -91,7 +91,7 @@ export default function ImagineBar() {
                   type="button"
                   data-bs-target="#carouselExampleIndicators"
                   data-bs-slide-to={i}
-                  class="active"
+                  class={i === 0 ? "active" : ""}
                   aria-current="true"
                   aria-label={`Slide ${i + 1}`}
                 ></button>
@@ -111,12 +111,13 @@ export default function ImagineBar() {
             ></button>
           </div>
           <div className="carousel-inner">
-            <div className="carousel-item active">
+            {/* <div className="carousel-item active">
               <img src={pages[0]} className="d-block w-100" alt={prompts[0]} />
-            </div>
+            </div> */}
             {pages.map((page, i) => {
+              const active = i === 0 ? "active" : "";
               return (
-                <div className="carousel-item active" key={i}>
+                <div className={`carousel-item ${active}`} key={i}>
                   <img className="d-block w-100" src={page} alt={prompts[i]} />
                 </div>
               );

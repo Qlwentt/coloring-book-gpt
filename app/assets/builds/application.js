@@ -36630,7 +36630,7 @@
               type: "button",
               "data-bs-target": "#carouselExampleIndicators",
               "data-bs-slide-to": i,
-              class: "active",
+              class: i === 0 ? "active" : "",
               "aria-current": "true",
               "aria-label": `Slide ${i + 1}`
             }
@@ -36652,8 +36652,9 @@
             "aria-label": "Slide 3"
           }
         )),
-        /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-inner" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-item active" }, /* @__PURE__ */ import_react.default.createElement("img", { src: pages[0], className: "d-block w-100", alt: prompts[0] })), pages.map((page, i) => {
-          return /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-item active", key: i }, /* @__PURE__ */ import_react.default.createElement("img", { className: "d-block w-100", src: page, alt: prompts[i] }));
+        /* @__PURE__ */ import_react.default.createElement("div", { className: "carousel-inner" }, pages.map((page, i) => {
+          const active = i === 0 ? "active" : "";
+          return /* @__PURE__ */ import_react.default.createElement("div", { className: `carousel-item ${active}`, key: i }, /* @__PURE__ */ import_react.default.createElement("img", { className: "d-block w-100", src: page, alt: prompts[i] }));
         })),
         /* @__PURE__ */ import_react.default.createElement(
           "button",
