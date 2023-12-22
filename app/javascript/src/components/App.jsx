@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import ImagineBar from "./imagine/ImagineBar";
+import SignIn from "./SignIn";
 
 export default function App() {
-  return (
-    <>
-      <ImagineBar />
-    </>
-  );
+  const [user, setUser] = useState(window.USER);
+  console.log(user);
+  return <>{user ? <ImagineBar /> : <SignIn />}</>;
 }
