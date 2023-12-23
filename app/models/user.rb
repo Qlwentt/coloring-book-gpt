@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :user_books
+  has_many :books, through: :user_books
+
   def self.from_omniauth(auth)
     where(email: auth.info.email).first_or_initialize do |user|
       user.name = auth.info.name

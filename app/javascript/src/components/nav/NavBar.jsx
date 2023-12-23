@@ -28,7 +28,7 @@ export default function NavBar() {
                   isActive ? "nav-link active" : "nav-link"
                 }
               >
-                Books
+                My Books
               </NavLink>
             </li>
             <li className="nav-item">
