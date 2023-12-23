@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/login", to: redirect("/auth/google_oauth2")
+  get "/login", to: "login#index"
   get "/logout", to: "sessions#destroy"
   get "/auth/google_oauth2/callback", to: "sessions#create"
   get 'auth/failure', to: redirect('/')
