@@ -4,8 +4,9 @@ class SessionsController < ApplicationController
   def create
     access_token = request.env["omniauth.auth"]
     user = User.from_omniauth(access_token)
+    user.save!
+
     cookies.encrypted[:current_user_id] = { value: user.id }
-    
     redirect_to root_path
   end
 

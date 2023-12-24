@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ImagineBar() {
   const [text, setText] = useState("");
@@ -8,20 +9,27 @@ export default function ImagineBar() {
   const handleTextChange = (e) => {
     setText(e.target.value);
   };
+  const navigate = useNavigate();
 
   async function getBook(text) {
     setIsLoading(true);
-    const response = await fetch(`${process.env.API_URL}/api/v1/books`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: text,
-      }),
-    });
-    const data = await response.json();
-    setIsLoading(false);
+    try {
+      const response = await fetch(`${process.env.API_URL}/api/v1/books`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: text,
+        }),
+      });
+      const data = await response.json();
+      setIsLoading(false);
+      return data;
+    } catch (error) {
+      setIsLoading(false);
+    }
+
     return data;
   }
   const handleSubmit = (e) => {
@@ -30,6 +38,7 @@ export default function ImagineBar() {
       console.log(data.data.images);
       setPages(data.data.images);
       setPromps(data.data.prompts);
+      navigate(`/books`);
     });
     console.log(text);
   };

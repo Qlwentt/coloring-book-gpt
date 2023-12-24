@@ -65,7 +65,11 @@ export default function Book() {
               const active = i === 0 ? "active" : "";
               return (
                 <div className={`carousel-item ${active}`} key={i}>
-                  <img className="d-block w-100" src={page} alt={page.prompt} />
+                  <img
+                    className="d-block w-100"
+                    src={page.remote_url}
+                    alt={page.prompt}
+                  />
                 </div>
               );
             })}
