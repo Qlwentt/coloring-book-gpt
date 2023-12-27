@@ -38,7 +38,7 @@ export default function ImagineBar() {
       console.log(data.data.images);
       setPages(data.data.images);
       setPromps(data.data.prompts);
-      navigate(`/books`);
+      navigate(`/books/${data.data.id}`);
     });
     console.log(text);
   };

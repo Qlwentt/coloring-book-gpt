@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
   has_many :user_books
   has_many :users, through: :user_books
-  has_many :images
+  has_many :images, -> { order(created_at: :desc) }
 end
