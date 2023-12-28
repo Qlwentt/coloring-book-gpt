@@ -12,7 +12,7 @@ export default function Books() {
   useEffect(() => {
     getBooks().then((data) => {
       setBooks(data);
-      console.log(books);
+      console.log(data);
     });
   }, []);
   return (
@@ -23,7 +23,7 @@ export default function Books() {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Imagine</th>
-            <th scope="col">Bought</th>
+            <th scope="col">Purchased</th>
             <th scope="col">Download PDF</th>
           </tr>
         </thead>
@@ -36,7 +36,19 @@ export default function Books() {
                 <td>
                   <a href={`/books/${book.id}`}>{book.imagine_query}</a>
                 </td>
-                <td>{book.is_bought ? "Yes" : "No"}</td>
+                <td>
+                  {book.purchased ? (
+                    "ABC"
+                  ) : (
+                    <a
+                      className="gumroad-button"
+                      href="https://9359254154654.gumroad.com/l/tbetp"
+                      data-gumroad-overlay-checkout="true"
+                    >
+                      Buy on
+                    </a>
+                  )}
+                </td>
                 <td>{book.pdf_url}</td>
               </tr>
             ))}

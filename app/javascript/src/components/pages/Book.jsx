@@ -6,6 +6,7 @@ import useBook from "../../hooks/useBook";
 
 export default function Book() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const bookCarousel = document.querySelector("#bookCarousel");
@@ -14,9 +15,7 @@ export default function Book() {
     }
   });
 
-  const navigate = useNavigate();
-  const book = useBook(id);
-
+  const { book } = useBook(id);
   console.log({ book });
 
   if (book && book.images.length === 0) {
