@@ -366,7 +366,6 @@ DEPENDENCIES
   selenium-webdriver
   sprockets-rails
   stimulus-rails
-  tzinfo-data
   web-console
 
 RUBY VERSION
