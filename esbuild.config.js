@@ -1,5 +1,4 @@
 const esbuild = require("esbuild");
-require("dotenv").config();
 const args = process.argv.slice(2);
 
 const options = {
@@ -9,9 +8,6 @@ const options = {
   sourcemap: true,
   publicPath: "/assets",
   loader: { ".js": "jsx" },
-  define: {
-    "process.env.API_URL": JSON.stringify(process.env.API_URL),
-  },
 };
 
 async function main() {
