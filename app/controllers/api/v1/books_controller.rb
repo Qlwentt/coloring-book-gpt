@@ -1,5 +1,6 @@
 require_relative '../../../services/ai_client'
 require 'open-uri'
+require 'rmagick'
 
 class Api::V1::BooksController < Api::V1::BaseController
 
@@ -18,31 +19,19 @@ class Api::V1::BooksController < Api::V1::BaseController
     current_user.books << book
     return render json: { data: book.as_json}
   end
-  
-  
-  
-  # def create
-  #   ai_client = AiClient.new 
-  #   response = ai_client.get_book_images_from_query(params[:query])
-  #   book = Book.create(imagine_query: params[:query])
-  #   query = params[:query]
-  #   response[:images].zip(response[:prompts]).each do |open_ai_image_url, prompt|
-  #     puts "image_url: #{open_ai_image_url}"
-  #     image = Image.create(prompt: prompt, book_id: book.id)
-  #     remote_image = URI.open(open_ai_image_url)
-  #     image.image_url.attach(io: remote_image, filename: "#{query}_#{SecureRandom.random_number(1000000)}.png", content_type: 'image/png')
-  #     image.remote_url = image.image_url.url
-  #     image.save!
-  #     book.images << image
-  #   end
-  #   current_user.books << book
-
-  #   puts response
-  #   return render json: { data: book.as_json(:include => :images) }
-  # end
 
   def index
-    return render json: { data: current_user.books }
+    books = []
+    for book in current_user.books
+      if book.pdf.attached?
+        service_url = book.pdf.blob.url(expires_in: 1.week.to_i, disposition: 'inline')
+        book.update(pdf_url: service_url)
+      end
+      purchased = UserBook.exists?(user_id: current_user.id, book_id: book.id, is_bought: true)
+      book_json = book.as_json.merge({ purchased: purchased })
+      books << book_json
+    end
+    return render json: { data: books }
   end
 
   def show
@@ -54,5 +43,66 @@ class Api::V1::BooksController < Api::V1::BaseController
       end
     end 
     return render json: { data: book.as_json(include: :images) }
+  end
+
+  def redeem_license
+     if not UserBook.where(user_id: current_user.id, id: params[:id]).exists?
+      return render json: { error: "You do not have permission to redeem this license." }, status: 403
+    end
+
+    gumroad_client = GumroadClient.new
+    is_valid = gumroad_client.is_license_valid(params[:license_key])
+
+    if not is_valid
+      return render json: { error: "Invalid license key. Either wrong key or it has already been used" }, status: 403
+    end
+
+    user_book = UserBook.find_by(user_id: current_user.id, book_id: params[:id])
+    user_book.update(is_bought: true)
+
+    puts "user_book 123: #{user_book.inspect}"
+
+    self.make_pdf
+
+    return render json: { success: true }
+
+  end
+  protected
+
+  def make_pdf
+    # book = Book.find(params[:id])
+    # urls = []
+    # book.images.each do |image|
+    #   urls <<  URI.open(image.remote_url).path
+    # end
+    # puts "urls: #{urls}"
+    # image_list = Magick::ImageList.new(*urls)
+    # filename = "#{book.imagine_query}-#{book.id}.pdf"
+    # image_list.write(filename)
+    # book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
+    # bool.update(pdf_url: book.pdf.url)
+    # File.delete(filename)
+    book = Book.find(params[:id])
+  images = []
+
+  book.images.each do |image|
+    # Explicitly use 'open' from 'open-uri' to fetch the remote image
+    images << Magick::Image.from_blob(URI.open(image.remote_url).read).first
+  end
+
+  puts "Number of images: #{images.length}"
+
+  image_list = Magick::ImageList.new
+  image_list += images
+
+  filename = "#{book.imagine_query.parameterize}-#{book.id}.pdf"
+  image_list.write(filename)
+
+  # Attach PDF to the book
+  book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
+  book.update(pdf_url: book.pdf.url)
+
+  # Clean up the temporary PDF file
+  File.delete(filename) if File.exist?(filename)
   end
 end

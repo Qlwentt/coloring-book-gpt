@@ -31,7 +31,8 @@ export default function Book() {
 
   if (!book || book.images.every((image) => image.remote_url === null)) {
     return (
-      <div className="d-flex justify-content-center align-items-center imagine-container">
+      <div className="d-flex flex-column justify-content-center align-items-center imagine-container">
+        <div>It takes about 30 seconds to start to see images...</div>
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>

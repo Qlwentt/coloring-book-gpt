@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :books
+      post '/books/:id/redeem_license', to: 'books#redeem_license'
     end
   end
 

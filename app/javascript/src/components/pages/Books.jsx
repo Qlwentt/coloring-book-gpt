@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import BuyModal from "../BuyModal";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
@@ -24,7 +25,7 @@ export default function Books() {
             <th scope="col">#</th>
             <th scope="col">Imagine</th>
             <th scope="col">Purchased</th>
-            <th scope="col">Download PDF</th>
+            <th scope="col">View/Download PDF</th>
           </tr>
         </thead>
 
@@ -38,23 +39,33 @@ export default function Books() {
                 </td>
                 <td>
                   {book.purchased ? (
-                    "ABC"
+                    <i class="bi bi-bag-check text-success"></i>
                   ) : (
-                    <a
-                      className="gumroad-button"
-                      href="https://9359254154654.gumroad.com/l/tbetp"
-                      data-gumroad-overlay-checkout="true"
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target={`#exampleModal-${book.id}`}
                     >
-                      Buy on
-                    </a>
+                      Buy PDF
+                    </button>
                   )}
                 </td>
-                <td>{book.pdf_url}</td>
+                <td>
+                  {book.pdf_url ? (
+                    <a href={book.pdf_url} target="_blank">
+                      View PDF
+                    </a>
+                  ) : (
+                    "Buy book to download / view PDF"
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         )}
       </table>
+      {books && books.map((book) => <BuyModal key={book.id} book={book} />)}
     </>
   );
 }
