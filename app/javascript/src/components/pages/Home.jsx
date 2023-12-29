@@ -12,7 +12,7 @@ export default function Home() {
   async function getBook(text) {
     setIsLoading(true);
     try {
-      const response = await fetch(`${process.env.API_URL}/api/v1/books`, {
+      const response = await fetch(`/api/v1/books`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
