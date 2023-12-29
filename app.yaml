@@ -1,5 +1,4 @@
 entrypoint: ./bin/dev --port $PORT
 env: flex
-runtime: ruby
 includes:
   - env_variables.yaml
