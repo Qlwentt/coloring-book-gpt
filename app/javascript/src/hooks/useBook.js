@@ -10,7 +10,7 @@ const useBook = (id, setShowAlert) => {
   }
 
   const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
-  const almostDone = useRef(false);
+  const [almostDone, setAlmostDone] = useState(false);
 
   const {
     data: book,
@@ -21,12 +21,13 @@ const useBook = (id, setShowAlert) => {
     refreshInterval: pollingInterval,
     onSuccess: (data) => {
       if (data.image_loaded_count === data.images.length - 1) {
-        almostDone.current = true;
+        setAlmostDone(true);
       }
       if (data.image_loaded_count === data.images.length) {
         setPollingInterval(0);
-        if (almostDone.current) {
+        if (almostDone) {
           setShowAlert(true);
+          setAlmostDone(false);
         }
       }
     },
