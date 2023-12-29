@@ -47,7 +47,7 @@ export default function Book() {
   return (
     <>
       {book.imagine_query && <h1> {toTitleCase(book.imagine_query)}</h1>}
-      <div className="d-flex justify-content-center align-items-center imagine-container">
+      <div className="d-flex flex-column justify-content-center align-items-center imagine-container">
         <div
           id="bookCarousel"
           className="carousel slide"
@@ -110,6 +110,12 @@ export default function Book() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
+        <button
+          className="btn btn-primary books-button"
+          onClick={() => navigate("/books")}
+        >
+          Go to Books to Buy
+        </button>
       </div>
     </>
   );
