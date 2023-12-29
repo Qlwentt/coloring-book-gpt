@@ -60,8 +60,6 @@ class Api::V1::BooksController < Api::V1::BaseController
     user_book = UserBook.find_by(user_id: current_user.id, book_id: params[:id])
     user_book.update(is_bought: true)
 
-    puts "user_book 123: #{user_book.inspect}"
-
     self.make_pdf
 
     return render json: { success: true }
@@ -70,39 +68,22 @@ class Api::V1::BooksController < Api::V1::BaseController
   protected
 
   def make_pdf
-    # book = Book.find(params[:id])
-    # urls = []
-    # book.images.each do |image|
-    #   urls <<  URI.open(image.remote_url).path
-    # end
-    # puts "urls: #{urls}"
-    # image_list = Magick::ImageList.new(*urls)
-    # filename = "#{book.imagine_query}-#{book.id}.pdf"
-    # image_list.write(filename)
-    # book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
-    # bool.update(pdf_url: book.pdf.url)
-    # File.delete(filename)
     book = Book.find(params[:id])
-  images = []
+    images = []
 
-  book.images.each do |image|
-    # Explicitly use 'open' from 'open-uri' to fetch the remote image
-    images << Magick::Image.from_blob(URI.open(image.remote_url).read).first
-  end
+    book.images.each do |image|
+      images << Magick::Image.from_blob(URI.open(image.remote_url).read).first
+    end
 
-  puts "Number of images: #{images.length}"
+    image_list = Magick::ImageList.new
+    image_list += images
 
-  image_list = Magick::ImageList.new
-  image_list += images
+    filename = "#{book.imagine_query.parameterize}-#{book.id}.pdf"
+    image_list.write(filename)
 
-  filename = "#{book.imagine_query.parameterize}-#{book.id}.pdf"
-  image_list.write(filename)
+    book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
+    book.update(pdf_url: book.pdf.url)
 
-  # Attach PDF to the book
-  book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
-  book.update(pdf_url: book.pdf.url)
-
-  # Clean up the temporary PDF file
-  File.delete(filename) if File.exist?(filename)
+    File.delete(filename) if File.exist?(filename)
   end
 end
