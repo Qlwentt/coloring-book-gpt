@@ -9,7 +9,6 @@ class Api::V1::BooksController < Api::V1::BaseController
     ai_client = AiClient.new
     responses = ai_client.request_book_images_from_query(query)
     book = Book.create(imagine_query: query)
-    puts "responses: #{responses}"
     responses.each do |response|
       4.times do |i|
         image = Image.create(prompt: response[:prompt], book_id: book.id, mid_id: "#{response[:mid_id]}-#{i+1}") # remote_url: 'https://storage.cloud.google.com/coloring-book-gpt-dev/progress_bar.png'
