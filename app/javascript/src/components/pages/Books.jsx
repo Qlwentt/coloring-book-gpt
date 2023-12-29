@@ -13,7 +13,6 @@ export default function Books() {
   useEffect(() => {
     getBooks().then((data) => {
       setBooks(data);
-      console.log(data);
     });
   }, []);
   return (

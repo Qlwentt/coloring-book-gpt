@@ -7,6 +7,7 @@ import useBook from "../../hooks/useBook";
 export default function Book() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const bookCarousel = document.querySelector("#bookCarousel");
@@ -15,8 +16,15 @@ export default function Book() {
     }
   });
 
-  const { book } = useBook(id);
-  console.log({ book });
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    }
+  }, [showAlert]);
+
+  const { book } = useBook(id, setShowAlert);
 
   if (book && book.images.length === 0) {
     return (
@@ -48,6 +56,11 @@ export default function Book() {
     <>
       {book.imagine_query && <h1> {toTitleCase(book.imagine_query)}</h1>}
       <div className="d-flex flex-column justify-content-center align-items-center imagine-container">
+        {showAlert && (
+          <div className="alert alert-success" role="alert">
+            All images have finished loading
+          </div>
+        )}
         <div
           id="bookCarousel"
           className="carousel slide"
