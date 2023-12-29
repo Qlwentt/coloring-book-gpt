@@ -20,10 +20,10 @@ async function main() {
   } else {
     await esbuild.build(options);
 
-    exit(0);
+    process.exit(0);
   }
 }
 main().catch((e) => {
   console.error(e);
-  exit(1);
+  process.exit(1);
 });
