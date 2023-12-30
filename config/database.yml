@@ -79,6 +79,11 @@ test:
 #
 production:
   <<: *default
-  database: coloring-book-gpt-prod-database
-  username: coloring_book_gpt
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  username: "postgres"
   password: <%= ENV["COLORING_BOOK_GPT_DATABASE_PASSWORD"] %>
+  database: "postgres"
+  host: "/cloudsql/coloring-book-gpt:us-west2:coloring-book-gpt-prod-database"
