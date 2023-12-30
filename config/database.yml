@@ -79,6 +79,6 @@ test:
 #
 production:
   <<: *default
-  database: coloring_book_gpt_production
+  database: coloring-book-gpt-prod-database
   username: coloring_book_gpt
   password: <%= ENV["COLORING_BOOK_GPT_DATABASE_PASSWORD"] %>

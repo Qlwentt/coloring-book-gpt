@@ -1,4 +1,6 @@
 entrypoint: ./bin/dev --port $PORT
 env: flex
+beta_settings:
+  cloud_sql_instances: coloring-book-gpt:us-west2:coloring-book-gpt-prod-database
 includes:
   - env_variables.yaml
