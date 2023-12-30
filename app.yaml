@@ -1,4 +1,4 @@
-entrypoint: ./bin/dev --port $PORT
+entrypoint: bundle exec rails server -p $PORT -e production
 env: flex
 beta_settings:
   cloud_sql_instances: coloring-book-gpt:us-west2:coloring-book-gpt-prod-database
