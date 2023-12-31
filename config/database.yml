@@ -79,7 +79,6 @@ test:
 #
 production:
   <<: *default
-  unix: &unix
   adapter: postgresql
   encoding: unicode
   pool: 5
