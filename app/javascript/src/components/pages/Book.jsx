@@ -123,12 +123,14 @@ export default function Book() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-        <button
-          className="btn btn-primary books-button"
-          onClick={() => navigate("/books")}
-        >
-          Go to Books to Buy
-        </button>
+        {book.image_loaded_count === book.images.length && (
+          <button
+            className="btn btn-primary books-button"
+            onClick={() => navigate("/books")}
+          >
+            Go to Books to Buy
+          </button>
+        )}
       </div>
     </>
   );

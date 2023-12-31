@@ -38,7 +38,7 @@ export default function Books() {
                 </td>
                 <td>
                   {book.purchased ? (
-                    <i class="bi bi-bag-check text-success"></i>
+                    <i className="bi bi-bag-check text-success"></i>
                   ) : (
                     <button
                       type="button"
