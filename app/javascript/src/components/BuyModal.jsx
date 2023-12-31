@@ -33,7 +33,6 @@ export default function BuyModal({ book }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     redeemLicense(licenseKey).then((data) => {
-      console.log({ data });
       if (data.success) {
         setIsRedeemed(true);
         navigate(0);
@@ -51,9 +50,6 @@ export default function BuyModal({ book }) {
   } else if (isError) {
     status = "error";
   }
-  console.log({ status });
-
-  console.log(book);
   return (
     <div
       className="modal fade"
