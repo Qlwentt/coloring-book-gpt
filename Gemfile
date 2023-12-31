@@ -46,6 +46,8 @@ gem 'google-cloud-storage'
 
 gem 'rmagick'
 
+gem "appengine", "~> 0.6"
+
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
