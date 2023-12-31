@@ -24,7 +24,6 @@ RUN apt-get update -qq && \
 # Modify ImageMagick policy to allow PDF conversion
 RUN sed -i 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
 RUN cat /etc/ImageMagick-6/policy.xml
-RUN cp /etc/ImageMagick-6/policy.xml ~/coloring-book-gpt/config/
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=21.4.0
