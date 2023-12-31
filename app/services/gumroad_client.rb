@@ -8,6 +8,6 @@ class GumroadClient
       http.request(request)
     end
     body = JSON.parse(response.body)
-    return body.dig("success") && body.dig("uses") == 1 
+    return body.dig("success") && body.dig("uses") < 25
   end
 end
