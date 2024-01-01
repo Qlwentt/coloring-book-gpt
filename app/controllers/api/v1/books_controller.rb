@@ -65,9 +65,6 @@ class Api::V1::BooksController < Api::V1::BaseController
 
   end
 
-  def show_policy
-    render plain: File.read('/etc/ImageMagick-6/policy.xml')
-  end
   protected
 
   def make_pdf

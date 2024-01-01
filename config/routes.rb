@@ -12,10 +12,8 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      get '/books/show_policy', to: 'books#show_policy'
       resources :books
       post '/books/:id/redeem_license', to: 'books#redeem_license'
-     
     end
   end
 
