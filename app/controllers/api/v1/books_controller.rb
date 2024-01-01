@@ -1,6 +1,7 @@
 require_relative '../../../services/ai_client'
 require 'open-uri'
 require 'rmagick'
+require 'tempfile'
 
 class Api::V1::BooksController < Api::V1::BaseController
 
@@ -57,9 +58,8 @@ class Api::V1::BooksController < Api::V1::BaseController
     end
 
     user_book = UserBook.find_by(user_id: current_user.id, book_id: params[:id])
-    user_book.update(is_bought: true)
-
     self.make_pdf
+    user_book.update(is_bought: true)
 
     return render json: { success: true }
 
@@ -78,12 +78,10 @@ class Api::V1::BooksController < Api::V1::BaseController
     image_list = Magick::ImageList.new
     image_list += images
 
-    filename = "#{book.imagine_query.parameterize}-#{book.id}.pdf"
-    image_list.write(filename)
-
-    book.pdf.attach(io: File.open(filename), filename: filename, content_type: 'application/pdf')
-    book.update(pdf_url: book.pdf.url)
-
-    File.delete(filename) if File.exist?(filename)
+    Tempfile.create([book.imagine_query.parameterize, '.pdf']) do |file|
+      image_list.write(file.path)
+      book.pdf.attach(io: File.open(file.path), filename: file.path, content_type: 'application/pdf')
+      book.update(pdf_url: book.pdf.url)
+    end
   end
 end
