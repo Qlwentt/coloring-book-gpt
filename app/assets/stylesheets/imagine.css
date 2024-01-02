@@ -17,6 +17,12 @@
   width: 30%;
 }
 
+@media only screen and (max-width: 600px) {
+  .carousel {
+    width: 60%;
+  }
+}
+
 .carousel-control-next,
 .carousel-control-prev {
   opacity: 0.9;
