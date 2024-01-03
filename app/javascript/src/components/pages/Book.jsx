@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toTitleCase } from "../../helpers/utils";
 import Carousel from "bootstrap/js/dist/carousel";
@@ -25,6 +25,23 @@ export default function Book() {
   }, [showAlert]);
 
   const { book } = useBook(id, setShowAlert);
+
+  if (
+    !USER.books.some((userBook) => {
+      return userBook.id === parseInt(id);
+    })
+  ) {
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center imagine-container">
+        <div className="alert alert-danger" role="alert">
+          You do not have access to this book
+        </div>
+        <button className="btn btn-primary" onClick={() => navigate("/books")}>
+          Go to My Books{" "}
+        </button>
+      </div>
+    );
+  }
 
   if (book && book.images.length === 0) {
     return (
