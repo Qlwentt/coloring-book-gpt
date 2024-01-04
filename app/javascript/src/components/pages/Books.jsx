@@ -3,18 +3,36 @@ import BuyModal from "../BuyModal";
 
 export default function Books() {
   const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getBooks() {
-    const response = await fetch("/api/v1/books");
-    const data = await response.json();
-    return data.data;
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/v1/books");
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
     getBooks().then((data) => {
       setBooks(data);
+      setIsLoading(false);
     });
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center imagine-container">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <h1>Books</h1>
