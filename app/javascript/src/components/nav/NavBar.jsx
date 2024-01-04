@@ -23,6 +23,16 @@ export default function NavBar() {
           <ul className="navbar-nav">
             <li className="nav-item">
               <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Make a Coloring Book
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
                 to="/books"
                 className={({ isActive }) =>
                   isActive ? "nav-link active" : "nav-link"
