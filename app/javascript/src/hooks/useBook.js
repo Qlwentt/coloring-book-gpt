@@ -6,24 +6,29 @@ const useBook = (id, setShowAlert) => {
   async function fetchBook() {
     const response = await fetch(`/api/v1/books/${id}`);
     const data = await response.json();
-    return data.data;
+    return { data: data.data, status: response.status, error: data.error };
   }
 
   const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
   const [almostDone, setAlmostDone] = useState(false);
 
   const {
-    data: book,
+    data,
     isLoading,
     error,
     mutate: refresh,
   } = useSWR("getBook", fetchBook, {
     refreshInterval: pollingInterval,
     onSuccess: (data) => {
-      if (data.image_loaded_count === data.images.length - 1) {
+      const book = data.data;
+      if (data.error || data.status !== 200) {
+        setPollingInterval(0);
+        return;
+      }
+      if (book && book.image_loaded_count === book.images.length - 1) {
         setAlmostDone(true);
       }
-      if (data.image_loaded_count === data.images.length) {
+      if (book && book.image_loaded_count === book.images.length) {
         setPollingInterval(0);
         if (almostDone) {
           setShowAlert(true);
@@ -34,7 +39,7 @@ const useBook = (id, setShowAlert) => {
   });
 
   return {
-    book,
+    data,
     error,
     isLoading,
     refresh,

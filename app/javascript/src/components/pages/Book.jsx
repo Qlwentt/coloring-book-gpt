@@ -24,13 +24,10 @@ export default function Book() {
     }
   }, [showAlert]);
 
-  const { book } = useBook(id, setShowAlert);
+  const { data } = useBook(id, setShowAlert);
+  const book = data?.data;
 
-  if (
-    !USER.books.some((userBook) => {
-      return userBook.id === parseInt(id);
-    })
-  ) {
+  if (data && data.status === 403) {
     return (
       <div className="d-flex flex-column justify-content-center align-items-center imagine-container">
         <div className="alert alert-danger" role="alert">

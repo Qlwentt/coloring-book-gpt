@@ -35,6 +35,9 @@ class Api::V1::BooksController < Api::V1::BaseController
   end
 
   def show
+    if not UserBook.where(user_id: current_user.id, id: params[:id]).exists?
+      return render json: { error: "You do not have permission view this book" }, status: 403
+    end
     book = Book.find(params[:id])
     book.images.each do |image|
       if image.image_url.attached?
@@ -46,7 +49,7 @@ class Api::V1::BooksController < Api::V1::BaseController
   end
 
   def redeem_license
-     if not UserBook.where(user_id: current_user.id, id: params[:id]).exists?
+    if not UserBook.where(user_id: current_user.id, id: params[:id]).exists?
       return render json: { error: "You do not have permission to redeem this license." }, status: 403
     end
 
