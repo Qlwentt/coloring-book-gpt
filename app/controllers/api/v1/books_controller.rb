@@ -22,7 +22,7 @@ class Api::V1::BooksController < Api::V1::BaseController
 
   def index
     books = []
-    for book in current_user.books
+    for book in current_user.books.asc
       if book.pdf.attached?
         service_url = book.pdf.blob.url(expires_in: 1.week.to_i, disposition: 'inline')
         book.update(pdf_url: service_url)
