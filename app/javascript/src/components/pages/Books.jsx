@@ -82,7 +82,10 @@ export default function Books() {
           </tbody>
         )}
       </table>
-      {books && books.map((book) => <BuyModal key={book.id} book={book} />)}
+      {books &&
+        books.map((book, i) => (
+          <BuyModal key={book.id} book={book} index={i} />
+        ))}
     </>
   );
 }

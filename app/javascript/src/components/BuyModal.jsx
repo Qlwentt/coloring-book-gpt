@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function BuyModal({ book }) {
+export default function BuyModal({ book, index }) {
   const [licenseKey, setLicenseKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(false);
@@ -65,7 +65,7 @@ export default function BuyModal({ book }) {
               className="modal-title fs-5"
               id={`exampleModalLabel-${book.id}`}
             >
-              Buy Book {book.imagine_query} # {book.id}
+              Buy Book {book.imagine_query} # {index + 1}
             </h1>
             <button
               type="button"
