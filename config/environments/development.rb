@@ -1,7 +1,6 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.hosts << "coloring.book.gpt"
   config.hosts << "7b06-173-71-156-131.ngrok-free.app"
   # Settings specified here will take precedence over those in config/application.rb.
 
