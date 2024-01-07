@@ -95,14 +95,16 @@ export default function BuyModal({ book, index }) {
               </button>
             </form>
             {status && <Status status={status} />}I don't have a license key!
-            <a
-              className="gumroad-button"
-              href="https://9359254154654.gumroad.com/l/tbetp"
-              data-gumroad-overlay-checkout="true"
-              target="_blank"
-            >
-              Buy on
-            </a>
+            <div>
+              <a
+                className="gumroad-button"
+                href="https://9359254154654.gumroad.com/l/tbetp"
+                data-gumroad-overlay-checkout="true"
+                target="_blank"
+              >
+                Buy on
+              </a>
+            </div>
           </div>
           <div className="modal-footer">
             <button
