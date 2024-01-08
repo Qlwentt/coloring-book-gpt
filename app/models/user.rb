@@ -8,4 +8,8 @@ class User < ApplicationRecord
       user.email = auth.info.email
     end
   end
+
+  def is_admin?
+    self.email == 'quai.wentt@gmail.com'
+  end
 end

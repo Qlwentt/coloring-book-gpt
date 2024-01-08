@@ -49,7 +49,7 @@ class Api::V1::BooksController < Api::V1::BaseController
   end
 
   def redeem_license
-    if not UserBook.where(user_id: current_user.id, id: params[:id]).exists?
+    if not UserBook.where(user_id: current_user.id, id: params[:id]).exists? and current_user.is_admin? == false
       return render json: { error: "You do not have permission to redeem this license." }, status: 403
     end
 
