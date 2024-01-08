@@ -10,6 +10,6 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    self.email == 'quai.wentt@gmail.com'
+    return self.email == 'quai.wentt@gmail.com'
   end
 end
