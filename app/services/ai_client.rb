@@ -37,7 +37,7 @@ class AiClient
     response = @client.chat(
     parameters: {
         model: "gpt-4",
-        messages: [{ role: "user", content: "Write 2 prompts that I will give to DALLE to make coloring book pages. The coloring book pages all have to do with this theme: #{query}."}], # Required.
+        messages: [{ role: "user", content: "Write 6 prompts that I will give to DALLE to make coloring book pages. The coloring book pages all have to do with this theme: #{query}."}], # Required.
         temperature: 0.7,
     })
     return response.dig("choices", 0, "message", "content").split("\n").compact_blank
