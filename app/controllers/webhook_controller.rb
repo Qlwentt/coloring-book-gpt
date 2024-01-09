@@ -16,9 +16,6 @@ class WebhookController < ApplicationController
         image.update(remote_url: mid_url)
       elsif params[:payload][:status] == 'completed'
         mid_url = params[:payload][:upscaled_urls][i]
-        image.book.with_lock do
-          image.book.update!(image_loaded_count: image.book.image_loaded_count + 1)
-        end
         remote_image = URI.open(mid_url)
         image.image_url.attach(io: remote_image, filename: "#{image.book.imagine_query}_#{image.mid_id}.png", content_type: 'image/png')
         image.remote_url = image.image_url.url

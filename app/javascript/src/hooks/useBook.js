@@ -25,10 +25,22 @@ const useBook = (id, setShowAlert) => {
         setPollingInterval(0);
         return;
       }
-      if (book && book.image_loaded_count === book.images.length - 1) {
+      if (
+        book &&
+        book.images.filter(
+          (image) =>
+            !image.remote_url.includes("storage.googleapis.com").length ===
+            book.images.length - 1
+        )
+      ) {
         setAlmostDone(true);
       }
-      if (book && book.image_loaded_count === book.images.length) {
+      if (
+        book &&
+        book.images.every((image) =>
+          image.remote_url.includes("storage.googleapis.com")
+        )
+      ) {
         setPollingInterval(0);
         if (almostDone) {
           setShowAlert(true);

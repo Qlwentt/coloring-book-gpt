@@ -137,7 +137,9 @@ export default function Book() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-        {book.image_loaded_count === book.images.length && (
+        {book.images.every((image) =>
+          image.remote_url.includes("storage.googleapis.com")
+        ) && (
           <button
             className="btn btn-primary books-button"
             onClick={() => navigate("/books")}
