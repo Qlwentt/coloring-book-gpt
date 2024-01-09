@@ -14,8 +14,8 @@ export default function App() {
       {user && <NavBar />}
       <Routes>
         <Route path="/" element={user ? <Home /> : <SignIn />} />
-        <Route path="/books" element={<Books />} />
-        <Route path="/books/:id" element={<Book />} />
+        <Route path="/books" element={user ? <Books /> : <SignIn />} />
+        <Route path="/books/:id" element={user ? <Book /> : <SignIn />} />
       </Routes>
     </>
   );
