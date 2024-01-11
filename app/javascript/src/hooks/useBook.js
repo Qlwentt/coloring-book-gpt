@@ -10,7 +10,6 @@ const useBook = (id, setShowAlert) => {
   }
 
   const [pollingInterval, setPollingInterval] = useState(POLLING_INTERVAL);
-  const [almostDone, setAlmostDone] = useState(false);
 
   const {
     data,
@@ -27,24 +26,16 @@ const useBook = (id, setShowAlert) => {
       }
       if (
         book &&
-        book.images.filter(
+        book.images.every(
           (image) =>
-            !image.remote_url.includes("storage.googleapis.com").length ===
-            book.images.length - 1
-        )
-      ) {
-        setAlmostDone(true);
-      }
-      if (
-        book &&
-        book.images.every((image) =>
-          image.remote_url.includes("storage.googleapis.com")
+            image.remote_url &&
+            image.remote_url.includes("storage.googleapis.com")
         )
       ) {
         setPollingInterval(0);
-        if (almostDone) {
+        if (localStorage.getItem(`${id}.hasShownAlert`) == null) {
           setShowAlert(true);
-          setAlmostDone(false);
+          localStorage.setItem(`${id}.hasShownAlert`, "true");
         }
       }
     },

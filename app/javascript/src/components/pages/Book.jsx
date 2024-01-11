@@ -137,8 +137,10 @@ export default function Book() {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-        {book.images.every((image) =>
-          image.remote_url.includes("storage.googleapis.com")
+        {book.images.every(
+          (image) =>
+            image.remote_url &&
+            image.remote_url.includes("storage.googleapis.com")
         ) && (
           <button
             className="btn btn-primary books-button"
