@@ -46,7 +46,7 @@ class AiClient
   def get_book_images_from_prompts(prompts)
     images = []
     prompts.each do |prompt|
-      images.push(self.get_book_image(prompt))
+      images.push(self.get_book_image(prompt.tr('"', '')))
     end
     return { images: images, prompts: prompts }
   end
@@ -59,7 +59,7 @@ class AiClient
   def request_book_images_from_prompts(prompts)
     image_info = []
     prompts.each do |prompt|
-      response = self.request_book_image(prompt)
+      response = self.request_book_image(prompt.tr('"', ''))
       image_info.push({ prompt: prompt, mid_id: response.dig("data", "id") })
     end
     return image_info
